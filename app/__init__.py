@@ -1,7 +1,8 @@
-from flask import Flask, jsonify # Import jsonify
+from flask import Flask, jsonify
 from flask_limiter import Limiter
 from flask_limiter.util import get_remote_address
-from sqlalchemy import text # <-- Import text here
+from sqlalchemy import text
+from flask_cors import CORS # Import CORS
 from config import config
 from .models import db
 
@@ -17,10 +18,19 @@ def create_app():
     app = Flask(__name__)
     app.config.from_object(config)
 
+    # Initialize extensions
     db.init_app(app)
     limiter.init_app(app)
+    # Initialize CORS - Basic setup allows all origins
+    # CORS(app)
+    # OR more specific setup:
+    CORS(app, resources={r"/api/*": {"origins": ["http://localhost:5173", "https://*.vercel.app"]}})
+    # Adjust origins:
+    # - "http://localhost:5173" (or your Vue dev server port)
+    # - "https://*.vercel.app" (allows any Vercel deployment - adjust if needed)
+    # - Or your specific frontend production URL
 
-    # --- Define Root Route Directly on App ---
+    # --- Define Root Route ---
     @app.route('/')
     def index():
         try:
@@ -33,10 +43,11 @@ def create_app():
             return jsonify({"status": "running", "database_connection": "failed", "error": str(e)}), 500
     # --- End Root Route Definition ---
 
-    # Import and register Blueprints with prefix
+    # Import and register Blueprints
     from .routes import bp as main_bp
     app.register_blueprint(main_bp, url_prefix='/api')
 
+    # --- CLI Commands ---
     # Optional: Add a command to create tables
     @app.cli.command("create-db")
     def create_db_command():
