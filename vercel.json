@@ -2,17 +2,18 @@
   "version": 2,
   "builds": [
     {
-      "src": "app.py",
+      "src": "run.py",
       "use": "@vercel/python",
       "config": {
-        "runtime": "python3.9"
+        "runtime": "python3.9",
+        "wsgiApplication": "app:create_app()"
       }
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "app.py"
+      "dest": "run.py"
     }
   ]
 }

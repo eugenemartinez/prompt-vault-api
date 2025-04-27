@@ -1,0 +1,27 @@
+[
+    {
+      "title": "Creative Story Starter",
+      "text": "Write a short story beginning with the line: The old clock chimed thirteen times.",
+      "username": "PromptVault Bot"
+    },
+    {
+      "title": "Python Code Explanation",
+      "text": "Explain the difference between a list and a tuple in Python, including use cases.",
+      "username": "PromptVault Bot"
+    },
+    {
+      "title": "Marketing Slogan Idea",
+      "text": "Generate five catchy slogans for a new brand of eco-friendly coffee.",
+      "username": "PromptVault Bot"
+    },
+    {
+      "title": "Explain a Concept Simply",
+      "text": "Explain the concept of blockchain technology to a 10-year-old.",
+      "username": "PromptVault Bot"
+    },
+    {
+      "title": "Recipe Suggestion",
+      "text": "Suggest a simple and healthy recipe using chicken breast, spinach, and quinoa.",
+      "username": "PromptVault Bot"
+    }
+  ]
