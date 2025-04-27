@@ -8,19 +8,21 @@ import datetime
 import psycopg2 # Add this line for testing
 
 # Load environment variables from .env file
-load_dotenv()
+load_dotenv() # Keep this for local development
 
 app = Flask(__name__)
 
 # --- Database Configuration ---
-DATABASE_URL = os.getenv("DATABASE_URL")
-if not DATABASE_URL:
-    raise ValueError("No DATABASE_URL set for Flask application")
+# Read from NEON_DATABASE_URL first (for Vercel), fall back to DATABASE_URL (for local .env)
+DATABASE_CONNECTION_STRING = os.getenv("NEON_DATABASE_URL") or os.getenv("DATABASE_URL")
+if not DATABASE_CONNECTION_STRING:
+    raise ValueError("No NEON_DATABASE_URL or DATABASE_URL set for Flask application")
 
-app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
+# Use the determined connection string
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_CONNECTION_STRING
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # Disable modification tracking
 
-db = SQLAlchemy(app) # This line might fail if psycopg2 import above fails
+db = SQLAlchemy(app)
 
 # --- Database Model ---
 class Prompt(db.Model):
