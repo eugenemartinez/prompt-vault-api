@@ -1,10 +1,11 @@
 from flask import Flask, request, jsonify
-from flask_sqlalchemy import SQLAlchemy # Remove text from here
-from sqlalchemy import text # Import text from sqlalchemy directly
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy import text
 from dotenv import load_dotenv
 import os
 import uuid
 import datetime
+import psycopg2 # Add this line for testing
 
 # Load environment variables from .env file
 load_dotenv()
@@ -19,7 +20,7 @@ if not DATABASE_URL:
 app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URL
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False # Disable modification tracking
 
-db = SQLAlchemy(app)
+db = SQLAlchemy(app) # This line might fail if psycopg2 import above fails
 
 # --- Database Model ---
 class Prompt(db.Model):
